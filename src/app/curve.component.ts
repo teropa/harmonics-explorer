@@ -43,13 +43,13 @@ export class CurveComponent implements AfterViewInit, OnChanges {
     if (!this.data) {
       return;
     }
-    
+
     this.ctx.strokeStyle = 'black';
     this.ctx.beginPath();
     const step = this.width / this.data.size;
     this.data.forEach((value, index) => {
       const x = step * index;
-      const y = (value + 1) / 2 * this.height;
+      const y = this.height - (value + 1) / 2 * this.height;
       if (index === 0) {
         this.ctx.moveTo(x, y);
       } else {

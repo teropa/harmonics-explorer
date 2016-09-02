@@ -43,14 +43,17 @@ return calculateCurve(partial.set('amplitude', amplitude));
 }
 
 function calculateTotalCurve(state: AppStateRecord) {
-  const totalCurve = Range(0, SAMPLE_COUNT).map(s => state.gain * calculateTotalSample(state.partials, s));
+  const totalCurve = Range(0, SAMPLE_COUNT)
+    .map(s => calculateTotalSample(state.partials, s, state.gain));
   return state.set('totalCurve', totalCurve);
 }
 
-function calculateTotalSample(partials: List<PartialRecord>, sample: number) {
-  return partials
-    .map(p => p.data.get(sample))
+function calculateTotalSample(partials: List<PartialRecord>, sampleIndex: number, gain: number) {
+  const sum = partials
+    .map(p => p.data.get(sampleIndex))
     .reduce((sum, s) => sum + s, 0);
+  const sample = sum * gain;
+  return Math.min(1, Math.max(-1, sample));
 }
 
 function changeTotalGain(state: AppStateRecord, gain: number) {
