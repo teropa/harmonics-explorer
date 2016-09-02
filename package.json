@@ -15,6 +15,7 @@
     "@angular/platform-browser": "2.0.0-rc.6",
     "@angular/platform-browser-dynamic": "2.0.0-rc.6",
     "@ngrx/core": "1.1.0",
+    "@ngrx/effects": "2.0.0-beta.3",
     "@ngrx/store": "2.1.2",
     "core-js": "2.4.1",
     "immutable": "3.8.1",
