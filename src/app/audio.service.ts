@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { List } from 'immutable';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, mergeEffects } from '@ngrx/effects';
 
@@ -13,7 +14,7 @@ export class AudioService implements OnDestroy {
   audioCtx = new AudioContext();
   masterGain = this.audioCtx.createGain();
 
-  oscillatorBank: OscillatorNode[];
+  oscillatorBank: List<OscillatorNode>;
 
   constructor(private actions$: Actions, private store: Store<AppState>) { 
     this.subscription = mergeEffects(this).subscribe(store);
@@ -33,14 +34,18 @@ export class AudioService implements OnDestroy {
     .do(([action, gain]) => this.setMasterGain(<number>gain));
 
   private start(state: AppState) {
-    this.oscillatorBank = [this.audioCtx.createOscillator()];
-    this.oscillatorBank[0].frequency.value = state.fundamentalFrequency;
-    this.oscillatorBank[0].connect(this.masterGain);
-    this.oscillatorBank[0].start();
+    this.oscillatorBank = <List<OscillatorNode>>state.partials.map(partial => {
+      const oscillator = this.audioCtx.createOscillator();
+      oscillator.frequency.value = partial.frequency;
+      oscillator.connect(this.masterGain);
+      oscillator.start();
+      return oscillator;
+    });
   }
 
   private stop() {
-    this.oscillatorBank[0].stop();
+    this.oscillatorBank.forEach(osc => osc.stop());
+    this.oscillatorBank = null;
   }
 
   private setMasterGain(gain: number) {
