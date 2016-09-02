@@ -22,7 +22,8 @@ function makeInitialState() {
   return calculateTotalCurve(appStateFactory({
     playing: false,
     gain: 1,
-    partials: <List<PartialRecord>>List(Range(1, 8).map(partial => calculateCurve(makePartial(100, partial))))
+    fundamentalFrequency: 440,
+    partials: <List<PartialRecord>>List(Range(1, 8).map(partial => calculateCurve(makePartial(440, partial))))
   }));
 }
 

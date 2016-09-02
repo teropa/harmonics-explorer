@@ -13,20 +13,21 @@ export class AudioService implements OnDestroy {
   audioCtx = new AudioContext();
   oscillatorBank: OscillatorNode[];
 
-  constructor(private actions$: Actions, store: Store<AppState>) { 
+  constructor(private actions$: Actions, private store: Store<AppState>) { 
     this.subscription = mergeEffects(this).subscribe(store);
   }
 
   @Effect({dispatch: false}) start$ = this.actions$
     .ofType(START)
-    .do(() => this.start());
+    .withLatestFrom(this.store)
+    .do(([action, state]) => this.start(state));
   @Effect({dispatch: false}) stop$ = this.actions$
     .ofType(STOP)
     .do(() => this.stop());
 
-  private start() {
+  private start(state: AppState) {
     this.oscillatorBank = [this.audioCtx.createOscillator()];
-    this.oscillatorBank[0].frequency.value = 440;
+    this.oscillatorBank[0].frequency.value = state.fundamentalFrequency;
     this.oscillatorBank[0].connect(this.audioCtx.destination);
     this.oscillatorBank[0].start();
   }
