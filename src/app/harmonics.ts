@@ -4,6 +4,7 @@ import { PartialRecord, partialFactory } from './partial';
 import { List, Range } from 'immutable';
 
 export const CHANGE_AMPLITUDE = 'CHANGE_AMPLITUDE';
+export const CHANGE_TOTAL_GAIN = 'CHANGE_TOTAL_GAIN';
 
 const SAMPLE_COUNT = 650;
 const SAMPLE_RATE = 44100;
@@ -17,6 +18,7 @@ function makePartial(fundamentalFrequency: number, partial: number) {
 
 function makeInitialState() {
   return calculateTotalCurve(appStateFactory({
+    gain: 1,
     partials: <List<PartialRecord>>List(Range(1, 8).map(partial => calculateCurve(makePartial(100, partial))))
   }));
 }
@@ -41,7 +43,7 @@ return calculateCurve(partial.set('amplitude', amplitude));
 }
 
 function calculateTotalCurve(state: AppStateRecord) {
-  const totalCurve = Range(0, SAMPLE_COUNT).map(s => calculateTotalSample(state.partials, s));
+  const totalCurve = Range(0, SAMPLE_COUNT).map(s => state.gain * calculateTotalSample(state.partials, s));
   return state.set('totalCurve', totalCurve);
 }
 
@@ -51,10 +53,16 @@ function calculateTotalSample(partials: List<PartialRecord>, sample: number) {
     .reduce((sum, s) => sum + s, 0);
 }
 
+function changeTotalGain(state: AppStateRecord, gain: number) {
+  return calculateTotalCurve(state.set('gain', gain));
+}
+
 export const harmonicsReducer: ActionReducer<AppStateRecord> = (state = makeInitialState(), action: Action ) => {
   switch (action.type) {
     case CHANGE_AMPLITUDE:
       return changeAmplitude(state, action.payload.partial, action.payload.amplitude);
+    case CHANGE_TOTAL_GAIN: 
+      return changeTotalGain(state, action.payload);
     default:
       return state;
   }
