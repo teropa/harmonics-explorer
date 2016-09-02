@@ -26,6 +26,9 @@ export class AudioService implements OnDestroy {
     this.masterGain.connect(this.audioCtx.destination);
   }
 
+  @Effect({dispatch: false}) init$ = this.store
+    .take(1)
+    .do(state => this.init(state));
   @Effect({dispatch: false}) start$ = this.actions$
     .ofType(START)
     .withLatestFrom(this.store)
@@ -42,6 +45,12 @@ export class AudioService implements OnDestroy {
     .ofType(CHANGE_AMPLITUDE)
     .do(action => this.setGain(action.payload.partial, action.payload.amplitude));
 
+  private init(state: AppState) {
+    if (state.playing) {
+      this.start(state);
+    }
+  }
+  
   private start(state: AppState) {
     this.masterGain.gain.setValueAtTime(0, this.audioCtx.currentTime);
     this.masterGain.gain.linearRampToValueAtTime(state.masterGain, this.audioCtx.currentTime + 0.03);
@@ -80,6 +89,7 @@ export class AudioService implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    (<any>this.audioCtx).close();
   }
 
 }

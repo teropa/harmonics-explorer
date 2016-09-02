@@ -44,7 +44,13 @@ export class CurveComponent implements AfterViewInit, OnChanges {
       return;
     }
 
-    this.ctx.strokeStyle = 'black';
+    this.ctx.strokeStyle = '#e5e5e5';
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, this.height / 2);
+    this.ctx.lineTo(this.width, this.height / 2);
+    this.ctx.stroke();
+
+    this.ctx.strokeStyle = 'blue';
     this.ctx.beginPath();
     const step = this.width / this.data.size;
     this.data.forEach((value, index) => {
@@ -57,6 +63,7 @@ export class CurveComponent implements AfterViewInit, OnChanges {
       }
     });
     this.ctx.stroke();
+
 
     this.ctx.rect(0, 0, 100, 100); 
   }

@@ -8,10 +8,12 @@ import { PartialComponent } from './partial.component';
 import { harmonicsReducer } from './harmonics';
 import { AudioService } from './audio.service';
 
+import { appState } from '../hmr';
+
 @NgModule({
   imports: [
     BrowserModule,
-    StoreModule.provideStore(harmonicsReducer),
+    StoreModule.provideStore(harmonicsReducer, appState),
     EffectsModule
   ],
   declarations: [
