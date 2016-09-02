@@ -6,7 +6,7 @@ import { List, Range } from 'immutable';
 export const START = 'START';
 export const STOP = 'STOP';
 export const CHANGE_AMPLITUDE = 'CHANGE_AMPLITUDE';
-export const CHANGE_TOTAL_GAIN = 'CHANGE_TOTAL_GAIN';
+export const CHANGE_MASTER_GAIN = 'CHANGE_TOTAL_GAIN';
 
 const SAMPLE_COUNT = 650;
 const SAMPLE_RATE = 44100;
@@ -21,7 +21,7 @@ function makePartial(fundamentalFrequency: number, partial: number) {
 function makeInitialState() {
   return calculateTotalCurve(appStateFactory({
     playing: false,
-    gain: 1,
+    masterGain: 1,
     fundamentalFrequency: 440,
     partials: <List<PartialRecord>>List(Range(1, 8).map(partial => calculateCurve(makePartial(440, partial))))
   }));
@@ -46,7 +46,7 @@ function changeAmplitudeForPartial(partial: PartialRecord, amplitude: number) {
 
 function calculateTotalCurve(state: AppStateRecord) {
   const totalCurve = Range(0, SAMPLE_COUNT)
-    .map(s => calculateTotalSample(state.partials, s, state.gain));
+    .map(s => calculateTotalSample(state.partials, s, state.masterGain));
   return state.set('totalCurve', totalCurve);
 }
 
@@ -66,8 +66,8 @@ function changeAmplitude(state: AppStateRecord, partial: number, amplitude: numb
   return calculateTotalCurve(state.updateIn(['partials', partial], p => changeAmplitudeForPartial(p, amplitude)));
 }
 
-function changeTotalGain(state: AppStateRecord, gain: number) {
-  return calculateTotalCurve(state.set('gain', gain));
+function changeMasterGain(state: AppStateRecord, gain: number) {
+  return calculateTotalCurve(state.set('masterGain', gain));
 }
 
 export const harmonicsReducer: ActionReducer<AppStateRecord> = (state = makeInitialState(), action: Action ) => {
@@ -78,8 +78,8 @@ export const harmonicsReducer: ActionReducer<AppStateRecord> = (state = makeInit
       return setPlayState(state, false);
     case CHANGE_AMPLITUDE:
       return changeAmplitude(state, action.payload.partial, action.payload.amplitude);
-    case CHANGE_TOTAL_GAIN: 
-      return changeTotalGain(state, action.payload);
+    case CHANGE_MASTER_GAIN: 
+      return changeMasterGain(state, action.payload);
     default:
       return state;
   }
