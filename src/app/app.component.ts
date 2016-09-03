@@ -12,11 +12,14 @@ import { Preset } from './presets.service';
   selector: 'hs-app',
   template: `
     <header>
-      <button *ngIf="!(playing$ | async)" (click)="start()">Start</button>
-      <button *ngIf="playing$ | async" (click)="stop()">Stop</button>
-      <button (click)="switchToSine()">Base sine</button>
-      <button (click)="switchToSawTooth()">Sawtooth</button>
-      <button (click)="switchToSquare()">Square</button>
+      <button md-raised-button *ngIf="!(playing$ | async)" (click)="start()">Start</button>
+      <button md-raised-button *ngIf="playing$ | async" (click)="stop()">Stop</button>
+      <button md-raised-button (click)="switchToSine()">Base sine</button>
+      <button md-raised-button (click)="switchToSquare()">Square</button>
+      <button md-raised-button (click)="switchToSawTooth()">Sawtooth</button>
+      <hs-note-control [frequency]="(partials$ | async).first().frequency"
+                       (frequencyChange)="changeFundamentalFrequency($event)">
+      </hs-note-control>
     </header>
     <div class="main">
       <hs-partial class="fundamental"
@@ -24,10 +27,7 @@ import { Preset } from './presets.service';
                   [gain]="masterGain$ | async"
                   [curveData]="totalCurve$ | async"
                   (gainChange)="changeMasterGain($event)">
-        Master
-        <hs-note-control [frequency]="(partials$ | async).first().frequency"
-                         (frequencyChange)="changeFundamentalFrequency($event)">
-        </hs-note-control>
+        <div class="partial-label">Master</div>
       </hs-partial>
       <div class="harmonics">
         <hs-partial *ngFor="let partial of partials$| async; let i = index; let evn = even; trackBy: trackPartial"
@@ -35,7 +35,7 @@ import { Preset } from './presets.service';
                     [gain]=partial.amplitude
                     [curveData]=partial.data
                     (gainChange)="changeAmplitude(i, $event)">
-          <div class="freq">{{ roundFrequency(partial.frequency) }}Hz</div>
+          <div class="partial-label">{{ roundFrequency(partial.frequency) }}Hz</div>
         </hs-partial>
       </div>
     </div>
@@ -45,12 +45,15 @@ import { Preset } from './presets.service';
       position: fixed;
       top: 0;
       width: 100%;
-      height: 30px;
+      height: 50px;
       background-color: #333;
+    }
+    header button {
+      margin: 7px 5px;
     }
     .main {
       position: fixed;
-      top: 30px;
+      top: 50px;
       bottom: 0;
       width: 100%;
     }
@@ -78,7 +81,7 @@ import { Preset } from './presets.service';
       border-top: 1px solid #f0f0f0;
       border-bottom: 1px solid #f0f0f0;
     }
-    .freq {
+    .partial-label {
       text-align: right;
       padding-right: 1em;
     }

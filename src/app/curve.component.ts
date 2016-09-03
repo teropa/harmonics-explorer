@@ -74,7 +74,7 @@ export class CurveComponent implements OnInit, OnChanges {
     this.ctx.lineTo(this.width, this.height / 2);
     this.ctx.stroke();
 
-    this.ctx.strokeStyle = '#ED146F';
+    this.ctx.strokeStyle = '#9c27b0';
     this.ctx.beginPath();
     const step = this.width / this.data.size;
     const effectiveHeight = this.height - this.ctx.lineWidth * 2;

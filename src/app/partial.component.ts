@@ -31,16 +31,16 @@ import {
       overflow: hidden;
     }
     .control {
-      flex: 1;
+      flex: 2;
 
       display: flex;
       align-items: center;
     }
     .control .control-label {
-      flex-basis: 30%;
+      flex-basis: 20%;
     }
     .control hs-gain-input {
-      flex-basis: 70%;
+      flex-basis: 80%;
     }
     hs-curve {
       flex: 3;
@@ -49,8 +49,8 @@ import {
   animations: [
     trigger('gainChange', [
       transition('* => *', [
-        style({backgroundColor: '#ccc'}),
-        animate('1000ms ease-out', style({backgroundColor: 'white'}))
+        style({backgroundColor: '#ddd'}),
+        animate('500ms ease-out', style({backgroundColor: 'white'}))
       ])
     ])
   ],

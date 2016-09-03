@@ -21,7 +21,7 @@ const AMPLITUDE_FUNCTIONS = {
   [Preset.Square]:   (index: number) => index % 2 === 0 ? 1 / (index + 1) : 0
 };
 
-const INTERVAL = 500;
+const INTERVAL = 300;
 
 @Injectable()
 export class PresetsService implements OnDestroy {
