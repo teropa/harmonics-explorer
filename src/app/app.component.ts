@@ -12,11 +12,11 @@ import { Preset } from './presets.service';
   selector: 'hs-app',
   template: `
     <header>
-      <button md-raised-button *ngIf="!(playing$ | async)" (click)="start()">Start</button>
-      <button md-raised-button *ngIf="playing$ | async" (click)="stop()">Stop</button>
-      <button md-raised-button (click)="switchToSine()">Base sine</button>
-      <button md-raised-button (click)="switchToSquare()">Square</button>
-      <button md-raised-button (click)="switchToSawTooth()">Sawtooth</button>
+      <button md-icon-button *ngIf="!(playing$ | async)" (click)="start()"><md-icon>volume_off</md-icon></button>
+      <button md-icon-button *ngIf="playing$ | async" (click)="stop()"><md-icon>volume_up</md-icon></button>
+      <button md-button (click)="switchToSine()">Base sine</button>
+      <button md-button (click)="switchToSquare()">Square</button>
+      <button md-button (click)="switchToSawTooth()">Sawtooth</button>
       <hs-note-control [frequency]="(partials$ | async).first().frequency"
                        (frequencyChange)="changeFundamentalFrequency($event)">
       </hs-note-control>
@@ -47,6 +47,7 @@ import { Preset } from './presets.service';
       width: 100%;
       height: 50px;
       background-color: #333;
+      color: white;
     }
     header button {
       margin: 7px 5px;
