@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { List } from 'immutable';
-import { CHANGE_AMPLITUDE, CHANGE_MASTER_GAIN, START, STOP, SWITCH_TO_PRESET } from './harmonics';
+import { CHANGE_AMPLITUDE, CHANGE_MASTER_GAIN, CHANGE_FUNDAMENTAL_FREQUENCY, START, STOP, SWITCH_TO_PRESET } from './harmonics';
 import { AppState } from './app-state';
 import { Partial } from './partial';
+import { NoteService } from './note.service';
 import { Preset } from './presets.service';
 
 @Component({
@@ -24,6 +25,9 @@ import { Preset } from './presets.service';
                   [curveData]="totalCurve$ | async"
                   (gainChange)="changeMasterGain($event)">
         Master
+        <hs-note-control [frequency]="(partials$ | async).first().frequency"
+                         (frequencyChange)="changeFundamentalFrequency($event)">
+        </hs-note-control>
       </hs-partial>
       <div class="harmonics">
         <hs-partial *ngFor="let partial of partials$| async; let i = index; let evn = even; trackBy: trackPartial"
@@ -86,7 +90,7 @@ export class AppComponent {
   masterGain$: Observable<number>;
   playing$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private notes: NoteService) {
     this.partials$ = <Observable<List<Partial>>>store.select('partials');
     this.totalCurve$ = <Observable<List<number>>>store.select('totalCurve');
     this.masterGain$ = <Observable<number>>store.select('masterGain');
@@ -104,6 +108,13 @@ export class AppComponent {
     this.store.dispatch({
       type: CHANGE_MASTER_GAIN,
       payload: gain
+    });
+  }
+
+  changeFundamentalFrequency(freq: number) {
+    this.store.dispatch({
+      type: CHANGE_FUNDAMENTAL_FREQUENCY,
+      payload: freq
     });
   }
 

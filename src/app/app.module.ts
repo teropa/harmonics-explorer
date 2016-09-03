@@ -4,10 +4,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AppComponent } from './app.component';
 import { CurveComponent } from './curve.component';
+import { FrequencyNotePipe } from './frequency-note.pipe';
 import { GainInputComponent } from './gain-input.component';
+import { NoteControlComponent } from './note-control.component';
 import { PartialComponent } from './partial.component';
 import { harmonicsReducer } from './harmonics';
 import { AudioService } from './audio.service';
+import { NoteService } from './note.service';
 import { PresetsService } from './presets.service';
 
 import { appState } from '../hmr';
@@ -22,10 +25,12 @@ import { appState } from '../hmr';
     AppComponent,
     CurveComponent, 
     GainInputComponent,
-    PartialComponent
+    PartialComponent,
+    NoteControlComponent
   ],
   providers: [
     AudioService,
+    NoteService,
     PresetsService
   ],
   bootstrap: [ AppComponent ]

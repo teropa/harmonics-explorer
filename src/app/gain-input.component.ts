@@ -32,7 +32,7 @@ export class GainInputComponent {
   }
 
   roundGain() {
-    return Number(this.gain).toFixed(2);
+    return Number(this.gain).toFixed(3);
   }
 
 }

@@ -4,8 +4,9 @@ import { List } from 'immutable';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, mergeEffects } from '@ngrx/effects';
 
-import { START, STOP, CHANGE_MASTER_GAIN, CHANGE_AMPLITUDE } from './harmonics';
+import { START, STOP, CHANGE_MASTER_GAIN, CHANGE_FUNDAMENTAL_FREQUENCY, CHANGE_AMPLITUDE } from './harmonics';
 import { AppState } from './app-state';
+import { Partial } from './partial';
 
 interface OscillatorBankItem {
   oscillator: OscillatorNode;
@@ -44,6 +45,10 @@ export class AudioService implements OnDestroy {
   @Effect({dispatch: false}) changeAmplitude$ = this.actions$
     .ofType(CHANGE_AMPLITUDE)
     .do(action => this.setGain(action.payload.partial, action.payload.amplitude));
+  @Effect({dispatch: false}) changeFundamentalFrequency$ = this.actions$
+    .ofType(CHANGE_FUNDAMENTAL_FREQUENCY)
+    .withLatestFrom(this.store.select('partials'))
+    .do(([action, partials]) => this.setFrequencies(<List<Partial>>partials));
 
   private init(state: AppState) {
     if (state.playing) {
@@ -85,6 +90,15 @@ export class AudioService implements OnDestroy {
     if (this.oscillatorBank) {
       this.oscillatorBank.get(partial).gain.gain.value = gain;
     }
+  }
+
+  private setFrequencies(partials: List<Partial>){
+    if (this.oscillatorBank) {
+      partials.forEach((p, idx) => {
+        const osc = this.oscillatorBank.get(idx).oscillator;
+        osc.frequency.value = p.frequency;
+      });
+    }  
   }
 
   ngOnDestroy() {

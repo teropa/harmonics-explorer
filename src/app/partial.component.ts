@@ -61,5 +61,4 @@ export class PartialComponent {
   @Input() @HostBinding('@gainChange') gain: number;
   @Input() curveData: Iterable<number>;
   @Output() gainChange = new EventEmitter();
-
 }

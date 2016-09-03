@@ -5,6 +5,7 @@ import { List, Range } from 'immutable';
 
 export const START = 'START';
 export const STOP = 'STOP';
+export const CHANGE_FUNDAMENTAL_FREQUENCY = 'CHANGE_FUNDAMENTAL_FREQUENCY';
 export const CHANGE_AMPLITUDE = 'CHANGE_AMPLITUDE';
 export const CHANGE_MASTER_GAIN = 'CHANGE_TOTAL_GAIN';
 export const SWITCH_TO_PRESET = 'SWITCH_TO_PRESET';
@@ -60,6 +61,11 @@ function calculateTotalSample(partials: List<PartialRecord>, sampleIndex: number
   return Math.min(1, Math.max(-1, sample));
 }
 
+function setPartialFrequencies(partials: List<PartialRecord>, fundamentalFrequency: number) {
+  return partials.map((partial: PartialRecord, index: number) => 
+    calculateCurve(partial.set('frequency', fundamentalFrequency * (index + 1))));
+}
+
 function setPlayState(state: AppStateRecord, playing: boolean) {
   return state.set('playing', playing);
 }
@@ -72,6 +78,12 @@ function changeMasterGain(state: AppStateRecord, gain: number) {
   return calculateTotalCurve(state.set('masterGain', gain));
 }
 
+function changeFundamentalFrequency(state: AppStateRecord, frequency: number) {
+  return calculateTotalCurve(state
+    .set('fundamentalFrequency', frequency)
+    .update('partials', partials => setPartialFrequencies(partials, frequency))); 
+}
+
 export const harmonicsReducer: ActionReducer<AppStateRecord> = (state = makeInitialState(), action: Action ) => {
   switch (action.type) {
     case START:
@@ -82,6 +94,8 @@ export const harmonicsReducer: ActionReducer<AppStateRecord> = (state = makeInit
       return changeAmplitude(state, action.payload.partial, action.payload.amplitude);
     case CHANGE_MASTER_GAIN: 
       return changeMasterGain(state, action.payload);
+    case CHANGE_FUNDAMENTAL_FREQUENCY:
+      return changeFundamentalFrequency(state, action.payload);
     default:
       return state;
   }
