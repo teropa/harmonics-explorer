@@ -2,8 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
-  Output
+  Output,
+  animate,
+  style,
+  transition,
+  trigger
 } from '@angular/core';
 
 @Component({
@@ -41,11 +46,20 @@ import {
       flex: 3;
     }
   `],
+  animations: [
+    trigger('gainChange', [
+      transition('* => *', [
+        style({backgroundColor: '#ccc'}),
+        animate('1000ms ease-out', style({backgroundColor: 'white'}))
+      ])
+    ])
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartialComponent {
   @Input() strong = false;
-  @Input() gain: number;
+  @Input() @HostBinding('@gainChange') gain: number;
   @Input() curveData: Iterable<number>;
   @Output() gainChange = new EventEmitter();
+
 }
