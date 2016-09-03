@@ -7,6 +7,7 @@ export const START = 'START';
 export const STOP = 'STOP';
 export const CHANGE_AMPLITUDE = 'CHANGE_AMPLITUDE';
 export const CHANGE_MASTER_GAIN = 'CHANGE_TOTAL_GAIN';
+export const SWITCH_TO_PRESET = 'SWITCH_TO_PRESET';
 
 const HARMONICS_COUNT = 13;
 const SAMPLE_COUNT = 650;

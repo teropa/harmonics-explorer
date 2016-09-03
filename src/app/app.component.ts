@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { List } from 'immutable';
-import { CHANGE_AMPLITUDE, CHANGE_MASTER_GAIN, START, STOP } from './harmonics';
+import { CHANGE_AMPLITUDE, CHANGE_MASTER_GAIN, START, STOP, SWITCH_TO_PRESET } from './harmonics';
 import { AppState } from './app-state';
 import { Partial } from './partial';
+import { Preset } from './presets.service';
 
 @Component({
   selector: 'hs-app',
@@ -12,6 +13,9 @@ import { Partial } from './partial';
     <header>
       <button *ngIf="!(playing$ | async)" (click)="start()">Start</button>
       <button *ngIf="playing$ | async" (click)="stop()">Stop</button>
+      <button (click)="switchToSine()">Base sine</button>
+      <button (click)="switchToSawTooth()">Sawtooth</button>
+      <button (click)="switchToSquare()">Square</button>
     </header>
     <div class="main">
       <hs-partial class="fundamental"
@@ -109,6 +113,18 @@ export class AppComponent {
 
   stop() {
     this.store.dispatch({type: STOP});
+  }
+
+  switchToSine() {
+    this.store.dispatch({type: SWITCH_TO_PRESET, payload: Preset.Sine});
+  }
+
+  switchToSawTooth() {
+    this.store.dispatch({type: SWITCH_TO_PRESET, payload: Preset.SawTooth});
+  }
+
+  switchToSquare() {
+    this.store.dispatch({type: SWITCH_TO_PRESET, payload: Preset.Square});
   }
 
   trackPartial(index: number) { 

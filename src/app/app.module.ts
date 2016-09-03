@@ -8,6 +8,7 @@ import { GainInputComponent } from './gain-input.component';
 import { PartialComponent } from './partial.component';
 import { harmonicsReducer } from './harmonics';
 import { AudioService } from './audio.service';
+import { PresetsService } from './presets.service';
 
 import { appState } from '../hmr';
 
@@ -24,7 +25,8 @@ import { appState } from '../hmr';
     PartialComponent
   ],
   providers: [
-    AudioService
+    AudioService,
+    PresetsService
   ],
   bootstrap: [ AppComponent ]
 })

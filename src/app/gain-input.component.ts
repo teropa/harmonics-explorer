@@ -18,7 +18,7 @@ import {
           min="0"
           max="1"
           step="0.01">
-    {{ gain }}
+    {{ roundGain(gain) }}
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -29,6 +29,10 @@ export class GainInputComponent {
 
   emitChange() {
     this.gainChange.next(parseFloat(this.input.nativeElement.value));
+  }
+
+  roundGain() {
+    return Number(this.gain).toFixed(2);
   }
 
 }
