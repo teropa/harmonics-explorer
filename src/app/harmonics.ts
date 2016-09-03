@@ -8,14 +8,14 @@ export const STOP = 'STOP';
 export const CHANGE_AMPLITUDE = 'CHANGE_AMPLITUDE';
 export const CHANGE_MASTER_GAIN = 'CHANGE_TOTAL_GAIN';
 
-const HARMONICS_COUNT = 12;
+const HARMONICS_COUNT = 13;
 const SAMPLE_COUNT = 650;
-const SAMPLE_RATE = 88200;
+const SAMPLE_RATE = 44100;
 
 function makePartial(fundamentalFrequency: number, partial: number) {
   return partialFactory({
     frequency: fundamentalFrequency * partial,
-    amplitude: 1 / partial
+    amplitude: partial === 1 ? 1 : 0
   });
 }
 
@@ -23,8 +23,8 @@ function makeInitialState() {
   return calculateTotalCurve(appStateFactory({
     playing: true,
     masterGain: 0.5,
-    fundamentalFrequency: 440,
-    partials: <List<PartialRecord>>List(Range(1, HARMONICS_COUNT + 1).map(partial => calculateCurve(makePartial(440, partial))))
+    fundamentalFrequency: 261.63,
+    partials: <List<PartialRecord>>List(Range(1, HARMONICS_COUNT + 1).map(partial => calculateCurve(makePartial(261.63, partial))))
   }));
 }
 

@@ -1,10 +1,12 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostListener,
   Input,
+  NgZone,
   OnChanges,
+  OnInit,
   ViewChild
 } from '@angular/core';
 import { List } from 'immutable';
@@ -12,29 +14,47 @@ import { List } from 'immutable';
 @Component({
   selector: 'hs-curve',
   template: `
-    <canvas #cnvs
-            [width]=width
-            [height]=height
-            [style.width.px]=width
-            [style.height.px]=height>
+    <canvas #cnvs>
     </canvas>
   `,
+  styles: [`
+    :host {
+      display: block;
+      overflow: hidden;
+    }
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CurveComponent implements AfterViewInit, OnChanges {
+export class CurveComponent implements OnInit, OnChanges {
+  @Input() strong = false;
   @Input() data: List<number>;
+  private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private width = 500;
   private height = 50;
 
-  @ViewChild('cnvs') set canvas(canvasRef: ElementRef) {
+  constructor(private elRef: ElementRef, private ngZone: NgZone) { }
+
+  @ViewChild('cnvs') set canvasRef(canvasRef: ElementRef) {
+    this.canvas = canvasRef.nativeElement;
     this.ctx = canvasRef.nativeElement.getContext('2d');
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    this.onResize();
+  }
+
+  ngOnChanges() {
     this.draw();
   }
-  ngOnChanges() {
+
+  @HostListener('window:resize') onResize() {
+    this.width = this.elRef.nativeElement.offsetWidth;
+    this.height = this.elRef.nativeElement.offsetHeight;
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.canvas.style.width = `${this.width}px`;
+    this.canvas.style.height = `${this.height}px`;
     this.draw();
   }
 
@@ -43,19 +63,24 @@ export class CurveComponent implements AfterViewInit, OnChanges {
     if (!this.data) {
       return;
     }
-
+ 
     this.ctx.strokeStyle = '#e5e5e5';
+    if (this.strong) {
+      this.ctx.lineWidth = 3;
+    }
+
     this.ctx.beginPath();
     this.ctx.moveTo(0, this.height / 2);
     this.ctx.lineTo(this.width, this.height / 2);
     this.ctx.stroke();
 
-    this.ctx.strokeStyle = 'blue';
+    this.ctx.strokeStyle = '#ED146F';
     this.ctx.beginPath();
     const step = this.width / this.data.size;
+    const effectiveHeight = this.height - this.ctx.lineWidth * 2;
     this.data.forEach((value, index) => {
       const x = step * index;
-      const y = this.height - (value + 1) / 2 * this.height;
+      const y = effectiveHeight + this.ctx.lineWidth - (value + 1) / 2 * effectiveHeight;
       if (index === 0) {
         this.ctx.moveTo(x, y);
       } else {
@@ -63,9 +88,6 @@ export class CurveComponent implements AfterViewInit, OnChanges {
       }
     });
     this.ctx.stroke();
-
-
-    this.ctx.rect(0, 0, 100, 100); 
   }
 
 }

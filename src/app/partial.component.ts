@@ -1,38 +1,51 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
-  Output,
-  ViewChild
+  Output
 } from '@angular/core';
-import { Partial } from './partial';
 
 @Component({
   selector: 'hs-partial',
   template: `
-    <div>
-      {{ partial.frequency }}Hz
-      <input #amplitudeInput
-             type="range"
-             [value]="partial.amplitude"
-             (input)="emitChange()"
-             min="0"
-             max="1"
-             step="0.1">
-      <hs-curve [data]="partial.data">
-      </hs-curve>
+    <div class="control">
+      <div class="control-label">
+        <ng-content></ng-content>
+      </div>
+      <hs-gain-input [gain]="gain"
+                     (gainChange)="gainChange.next($event)">
+      </hs-gain-input>
     </div>
+    <hs-curve [data]="curveData" [strong]=strong>
+    </hs-curve>
   `,
+  styles: [`
+    :host {
+      display: flex;
+      overflow: hidden;
+    }
+    .control {
+      flex: 1;
+
+      display: flex;
+      align-items: center;
+    }
+    .control .control-label {
+      flex-basis: 30%;
+    }
+    .control hs-gain-input {
+      flex-basis: 70%;
+    }
+    hs-curve {
+      flex: 3;
+    }
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartialComponent {
-  @Input() partial: Partial;
-  @Output() amplitudeChange = new EventEmitter();
-  @ViewChild('amplitudeInput') amplitudeInput: ElementRef;
-
-  emitChange() {
-    this.amplitudeChange.emit(parseFloat(this.amplitudeInput.nativeElement.value));
-  }
+  @Input() strong = false;
+  @Input() gain: number;
+  @Input() curveData: Iterable<number>;
+  @Output() gainChange = new EventEmitter();
 }
