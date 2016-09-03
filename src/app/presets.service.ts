@@ -15,6 +15,8 @@ export enum Preset {
   Square
 }
 
+const INTERVAL = 500;
+
 @Injectable()
 export class PresetsService implements OnDestroy {
   subscription: Subscription;
@@ -31,11 +33,14 @@ export class PresetsService implements OnDestroy {
   private switchTo(preset: Preset, state: AppState): Observable<Action> {
     switch (preset) {
       case Preset.Sine:
-        return Observable.from(this.sineActions(state.partials));
+        return Observable.from(this.sineActions(state.partials))
+          .zip(Observable.interval(INTERVAL), (action, _) => action);
       case Preset.SawTooth:
-        return Observable.from(this.sawtoothActions(state.partials));
+        return Observable.from(this.sawtoothActions(state.partials))
+          .zip(Observable.interval(INTERVAL), (action, _) => action);
       case Preset.Square:
-        return Observable.from(this.squareActions(state.partials));
+        return Observable.from(this.squareActions(state.partials))
+          .zip(Observable.interval(INTERVAL), (action, _) => action);
       default:
         return <Observable<Action>>Observable.empty();
     }
@@ -45,7 +50,7 @@ export class PresetsService implements OnDestroy {
     return partials.toArray().map((partial, index) => ({
       type: CHANGE_AMPLITUDE,
       payload: {partial: index, amplitude: index === 0 ? 1 : 0}
-    }));
+    })).reverse();
   }
 
   private sawtoothActions(partials: List<Partial>) {
