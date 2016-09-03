@@ -15,6 +15,12 @@ export enum Preset {
   Square
 }
 
+const AMPLITUDE_FUNCTIONS = {
+  [Preset.Sine]:     (index: number) => index === 0 ? 1 : 0,
+  [Preset.SawTooth]: (index: number) => 1 / (index + 1),
+  [Preset.Square]:   (index: number) => index % 2 === 0 ? 1 / (index + 1) : 0
+};
+
 const INTERVAL = 500;
 
 @Injectable()
@@ -47,24 +53,25 @@ export class PresetsService implements OnDestroy {
   }
 
   private sineActions(partials: List<Partial>) {
-    return partials.toArray().map((partial, index) => ({
-      type: CHANGE_AMPLITUDE,
-      payload: {partial: index, amplitude: index === 0 ? 1 : 0}
-    })).reverse();
+    return this.presetActions(partials, Preset.Sine).reverse();
   }
 
   private sawtoothActions(partials: List<Partial>) {
-    return partials.toArray().map((partial, index) => ({
-      type: CHANGE_AMPLITUDE,
-      payload: {partial: index, amplitude: 1 / (index + 1)}
-    }));
+    return this.presetActions(partials, Preset.SawTooth);
   }
 
   private squareActions(partials: List<Partial>) {
-    return partials.toArray().map((partial, index) => ({
-      type: CHANGE_AMPLITUDE,
-      payload: {partial: index, amplitude: index % 2 === 0 ? 1 / (index + 1) : 0}
-    }));
+    return this.presetActions(partials, Preset.Square);
+  }
+
+  private presetActions(partials: List<Partial>, preset: Preset) {
+    const amplitudeFn = AMPLITUDE_FUNCTIONS[preset];
+    return partials.toArray()
+      .map((partial, index) => ({
+        type: CHANGE_AMPLITUDE,
+        payload: {partial: index, amplitude: amplitudeFn(index)}
+      }))
+      .filter((action, index) => partials.get(index).amplitude !== action.payload.amplitude);
   }
 
   ngOnDestroy() {
