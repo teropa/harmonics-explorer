@@ -11,16 +11,13 @@ import { Preset } from './presets.service';
 @Component({
   selector: 'hs-app',
   template: `
-    <header>
-      <button md-icon-button *ngIf="!(playing$ | async)" (click)="start()"><md-icon>volume_off</md-icon></button>
-      <button md-icon-button *ngIf="playing$ | async" (click)="stop()"><md-icon>volume_up</md-icon></button>
-      <button md-button (click)="switchToSine()">Base sine</button>
-      <button md-button (click)="switchToSquare()">Square</button>
-      <button md-button (click)="switchToSawTooth()">Sawtooth</button>
-      <hs-note-control [frequency]="(partials$ | async).first().frequency"
-                       (frequencyChange)="changeFundamentalFrequency($event)">
-      </hs-note-control>
-    </header>
+    <hs-main-menu [playing]="playing$ | async"
+                  (start)="start()"
+                  (stop)="stop()"
+                  (switchToPreset)="switchToPreset($event)"
+                  [fundamentalFrequency]="(partials$ | async).first().frequency"
+                  (fundamentalFrequencyChange)="changeFundamentalFrequency($event)">
+    </hs-main-menu>
     <div class="main">
       <hs-partial class="fundamental"
                   [strong]=true
@@ -41,17 +38,6 @@ import { Preset } from './presets.service';
     </div>
   `,
   styles: [`
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 50px;
-      background-color: #333;
-      color: white;
-    }
-    header button {
-      margin: 7px 5px;
-    }
     .main {
       position: fixed;
       top: 50px;
@@ -130,16 +116,8 @@ export class AppComponent {
     this.store.dispatch({type: STOP});
   }
 
-  switchToSine() {
-    this.store.dispatch({type: SWITCH_TO_PRESET, payload: Preset.Sine});
-  }
-
-  switchToSawTooth() {
-    this.store.dispatch({type: SWITCH_TO_PRESET, payload: Preset.SawTooth});
-  }
-
-  switchToSquare() {
-    this.store.dispatch({type: SWITCH_TO_PRESET, payload: Preset.Square});
+  switchToPreset(preset: Preset) {
+    this.store.dispatch({type: SWITCH_TO_PRESET, payload: preset});
   }
 
   trackPartial(index: number) { 

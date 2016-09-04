@@ -9,6 +9,7 @@ import { MdIconModule } from '@angular2-material/icon';
 import { MdSliderModule } from '@angular2-material/slider';
 
 import { AppComponent } from './app.component';
+import { MainMenuComponent } from './main-menu.component';
 import { CurveComponent } from './curve.component';
 import { GainInputComponent } from './gain-input.component';
 import { NoteControlComponent } from './note-control.component';
@@ -33,6 +34,7 @@ import { appState } from '../hmr';
   ],
   declarations: [
     AppComponent,
+    MainMenuComponent,
     CurveComponent, 
     GainInputComponent,
     PartialComponent,
