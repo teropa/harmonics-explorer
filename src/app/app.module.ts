@@ -8,12 +8,13 @@ import { MdButtonModule } from '@angular2-material/button';
 import { MdIconModule } from '@angular2-material/icon';
 import { MdSliderModule } from '@angular2-material/slider';
 
-import { AppComponent } from './app.component';
-import { MainMenuComponent } from './main-menu.component';
-import { CurveComponent } from './curve.component';
-import { GainInputComponent } from './gain-input.component';
-import { NoteControlComponent } from './note-control.component';
-import { PartialComponent } from './partial.component';
+import { AppComponent } from './components/app.component';
+import { MainMenuComponent } from './components/main-menu.component';
+import { CurveComponent } from './components/curve.component';
+import { GainInputComponent } from './components/gain-input.component';
+import { NoteControlComponent } from './components/note-control.component';
+import { PartialComponent } from './components/partial.component';
+
 import { harmonicsReducer } from './harmonics';
 import { AudioService } from './audio.service';
 import { NoteService } from './note.service';

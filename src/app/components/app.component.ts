@@ -2,11 +2,18 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { List } from 'immutable';
-import { CHANGE_AMPLITUDE, CHANGE_MASTER_GAIN, CHANGE_FUNDAMENTAL_FREQUENCY, START, STOP, SWITCH_TO_PRESET } from './harmonics';
-import { AppState } from './app-state';
-import { Partial } from './partial';
-import { NoteService } from './note.service';
-import { Preset } from './presets.service';
+import {
+  CHANGE_AMPLITUDE,
+  CHANGE_MASTER_GAIN,
+  CHANGE_FUNDAMENTAL_FREQUENCY,
+  START,
+  STOP,
+  SWITCH_TO_PRESET
+} from '../harmonics';
+import { AppState } from '../app-state';
+import { Partial } from '../partial';
+import { NoteService } from '../note.service';
+import { Preset } from '../presets.service';
 
 @Component({
   selector: 'hs-app',

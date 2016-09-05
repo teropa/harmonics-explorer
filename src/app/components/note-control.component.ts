@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NoteService } from './note.service';
+import { NoteService } from '../note.service';
 
 @Component({
   selector: 'hs-note-control',

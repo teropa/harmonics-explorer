@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Preset } from './presets.service';
+import { Preset } from '../presets.service';
 
 @Component({
   selector: 'hs-main-menu',
