@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+/*
+ * Main/top menu component.
+ */
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 
 import { Preset } from '../services/presets.service';
 
@@ -22,6 +31,15 @@ import { Preset } from '../services/presets.service';
       <hs-note-control [frequency]="fundamentalFrequency"
                        (frequencyChange)="fundamentalFrequencyChange.next($event)">
       </hs-note-control>
+      <div class="gh-button">
+        <a class="github-button"
+          href="https://github.com/teropa/harmonics-explorer"
+          data-style="mega"
+          data-count-href="/teropa/harmonics-explorer/stargazers" data-count-api="/repos/teropa/harmonics-explorer#stargazers_count" data-count-aria-label="# stargazers on GitHub"
+          aria-label="Star teropa/harmonics-explorer on GitHub">
+          Star
+        </a>
+      </div>
     </header>
   `,
   styles: [`
@@ -36,7 +54,13 @@ import { Preset } from '../services/presets.service';
     header button {
       margin: 7px 5px;
     }
+    .gh-button {
+      float: right;
+      margin: .5em;
+    }
   `],
+  // This is a dumb, stateless component with immutable inputs. We can use
+  // OnPush change detection.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainMenuComponent {
