@@ -12,6 +12,7 @@ import { AppComponent } from './components/app.component';
 import { MainMenuComponent } from './components/main-menu.component';
 import { CurveComponent } from './components/curve.component';
 import { GainInputComponent } from './components/gain-input.component';
+import { MuteControlComponent } from './components/mute-control.component'; 
 import { NoteControlComponent } from './components/note-control.component';
 import { PartialComponent } from './components/partial.component';
 
@@ -38,8 +39,9 @@ import { appState } from '../hmr';
     MainMenuComponent,
     CurveComponent, 
     GainInputComponent,
-    PartialComponent,
-    NoteControlComponent
+    MuteControlComponent,
+    NoteControlComponent,
+    PartialComponent
   ],
   providers: [
     AudioService,

@@ -23,7 +23,7 @@ function makePartial(fundamentalFrequency: number, partial: number) {
 
 function makeInitialState() {
   return calculateTotalCurve(appStateFactory({
-    playing: true,
+    playing: false,
     masterGain: 0.5,
     fundamentalFrequency: 261.63,
     partials: <List<PartialRecord>>List(Range(1, HARMONICS_COUNT + 1).map(partial => calculateCurve(makePartial(261.63, partial))))

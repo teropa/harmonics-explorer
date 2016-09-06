@@ -6,12 +6,10 @@ import { Preset } from '../presets.service';
   selector: 'hs-main-menu',
   template: `
     <header>
-      <button md-icon-button *ngIf="!playing" (click)="start.next()">
-        <md-icon>volume_off</md-icon>
-      </button>
-      <button md-icon-button *ngIf="playing" (click)="stop.next()">
-        <md-icon>volume_up</md-icon>
-      </button>
+      <hs-mute-control [playing]="playing"
+                       (start)="start.next()"
+                       (stop)="stop.next()">
+      </hs-mute-control>
       <button md-button (click)="switchToSine()">
         Base sine
       </button>
