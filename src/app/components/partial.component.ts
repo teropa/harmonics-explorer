@@ -1,3 +1,7 @@
+/*
+ * Renders a particular partial of the harmonic series, including
+ * its amplitude control and its sine wave curve.
+ */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -54,10 +58,14 @@ import {
       ])
     ])
   ],
+  // This is a dumb, stateless component with immutable inputs. We can use
+  // OnPush change detection.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartialComponent {
   @Input() strong = false;
+  // Whenever the gain changes, the @gainChange animation is also triggered,
+  // which highlights the change by flashing the background color.
   @Input() @HostBinding('@gainChange') gain: number;
   @Input() curveData: Iterable<number>;
   @Output() gainChange = new EventEmitter();

@@ -9,5 +9,5 @@ import '@angular/forms';
 // RxJS
 import 'rxjs';
 
-
+// Hammer.js is used by Angular Material 2 slider. This loads it onto the page.
 require('hammerjs');

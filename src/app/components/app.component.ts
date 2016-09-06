@@ -1,3 +1,11 @@
+/*
+ * Main application component. Renders the top-level layout and its individual
+ * subcomponents.
+ * 
+ * This is also the only "smart component" in this application. We only subscribe
+ * to @ngrx/store here, and also only dispatch actions to @ngrx/store here.
+ * Other components are stateless and know nothing about the store.
+ */
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -12,8 +20,7 @@ import {
 } from '../harmonics';
 import { AppState } from '../app-state';
 import { Partial } from '../partial';
-import { NoteService } from '../note.service';
-import { Preset } from '../presets.service';
+import { Preset } from '../services/presets.service';
 
 @Component({
   selector: 'hs-app',
@@ -34,12 +41,17 @@ import { Preset } from '../presets.service';
         <div class="partial-label">Master</div>
       </hs-partial>
       <div class="harmonics">
-        <hs-partial *ngFor="let partial of partials$| async; let i = index; let evn = even; trackBy: trackPartial"
+        <hs-partial *ngFor="let partial of partials$ | async;
+                            let i = index;
+                            let evn = even;
+                            trackBy: trackPartial"
                     [class.even]="evn"
                     [gain]=partial.amplitude
                     [curveData]=partial.data
                     (gainChange)="changeAmplitude(i, $event)">
-          <div class="partial-label">{{ roundFrequency(partial.frequency) }}Hz</div>
+          <div class="partial-label">
+            {{ roundFrequency(partial.frequency) }}Hz
+          </div>
         </hs-partial>
       </div>
     </div>
@@ -87,7 +99,7 @@ export class AppComponent {
   masterGain$: Observable<number>;
   playing$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>, private notes: NoteService) {
+  constructor(private store: Store<AppState>) {
     this.partials$ = <Observable<List<Partial>>>store.select('partials');
     this.totalCurve$ = <Observable<List<number>>>store.select('totalCurve');
     this.masterGain$ = <Observable<number>>store.select('masterGain');
@@ -127,6 +139,8 @@ export class AppComponent {
     this.store.dispatch({type: SWITCH_TO_PRESET, payload: preset});
   }
 
+  // ngFor tracking function for partials. We have a constant number so we can
+  // just track by index.
   trackPartial(index: number) { 
     return index;
   }
