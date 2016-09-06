@@ -10,4 +10,4 @@ import '@angular/forms';
 import 'rxjs';
 
 
-import 'hammerjs';
+require('hammerjs');
