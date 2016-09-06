@@ -12,8 +12,6 @@ if (process.env.ENV === 'production') {
   enableProdMode();
 }
 
-console.log('watei');
-
 function bootstrap() {
   return platformBrowserDynamic()
     .bootstrapModule(AppModule);

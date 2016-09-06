@@ -82,7 +82,6 @@ function updateCurve(partial: PartialRecord) {
   );
   return partial.merge({data});
 }
-console.log('lol');
 
 // Update the curve data for the combinination of all the sine wave partials.
 function updateTotalCurve(state: AppStateRecord) {

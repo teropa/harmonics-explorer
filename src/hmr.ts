@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 // loaded (see app/app.module.ts).
 export let appState: any;
 
-console.log('rerun');
-
 // Called from main.ts when a hot bootstrap should be done.
 // This function is called every time the application loads
 // (first when the page loads, and then again after each hot reload)
@@ -40,7 +38,7 @@ export function handleHmr(
     // we can use the Observable API to get the state. We'll get it synchronously
     // though this code may look like we might not.
     store.take(1).subscribe(s => appState = s);
-    console.log('state now', appState);
+
     // When an Angular app is destroyed, it will also remove the DOM elements
     // of its root component(s) from the page. When doing hot loading, this is
     // a problem because the next version of the app will have nothing to
