@@ -20,6 +20,7 @@
     "@angular2-material/core": "2.0.0-alpha.8-1",
     "@angular2-material/icon": "2.0.0-alpha.8-1",
     "@angular2-material/slider": "2.0.0-alpha.8-1",
+    "@mohayonao/web-audio-api-shim": "0.3.0",
     "@ngrx/core": "1.1.0",
     "@ngrx/effects": "2.0.0-beta.3",
     "@ngrx/store": "2.1.2",
