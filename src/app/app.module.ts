@@ -12,6 +12,7 @@ import { MdIconModule } from '@angular2-material/icon';
 import { MdSliderModule } from '@angular2-material/slider';
 
 import { AppComponent } from './components/app.component';
+import { ContainerComponent } from './components/container.component';
 import { MainMenuComponent } from './components/main-menu.component';
 import { CurveComponent } from './components/curve.component';
 import { GainInputComponent } from './components/gain-input.component';
@@ -42,6 +43,7 @@ import { appState } from '../hmr';
   ],
   declarations: [
     AppComponent,
+    ContainerComponent,
     MainMenuComponent,
     CurveComponent, 
     GainInputComponent,

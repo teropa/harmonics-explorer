@@ -1,0 +1,11 @@
+<hs-container [partials]="partials$ | async"
+              [totalCurve]="totalCurve$ | async"
+              [masterGain]="masterGain$ | async"
+              [playing]="playing$ | async"
+              (amplitudeChange)="changeAmplitude($event)"
+              (masterGainChange)="changeMasterGain($event)"
+              (fundamentalFrequencyChange)="changeFundamentalFrequency($event)"
+              (start)="start()"
+              (stop)="stop()"
+              (presetSwitch)="switchToPreset($event)">
+</hs-container>

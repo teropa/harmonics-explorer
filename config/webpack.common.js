@@ -11,7 +11,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.ts']
+    extensions: ['.js', '.ts']
   },
 
   module: {
@@ -35,7 +35,8 @@ module.exports = {
         test: /\.css$/,
         loader: 'raw'
       }
-    ]
+    ],
+    exprContextCritical: false
   },
 
   plugins: [

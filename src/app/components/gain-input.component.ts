@@ -14,17 +14,8 @@ import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'hs-gain-input',
-  template: `
-    <md-slider [formControl]="gainControl"
-               [min]="0"
-               [max]="1"
-               [step]="0.01">
-    </md-slider>
-    {{ roundGain(gain) }}
-  `,
-  styles: [`
-    md-slider { width: 80%; }
-  `],
+  templateUrl: './gain-input.component.html',
+  styleUrls: ['./gain-input.component.css'],
   // This is a dumb, stateless component with immutable inputs. We can use
   // OnPush change detection.
   changeDetection: ChangeDetectionStrategy.OnPush

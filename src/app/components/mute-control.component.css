@@ -1,0 +1,6 @@
+[md-button] {
+  min-width: 8em;
+}
+[md-button] md-icon {
+  vertical-align: middle;
+}

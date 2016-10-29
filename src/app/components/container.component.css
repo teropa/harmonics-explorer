@@ -1,0 +1,34 @@
+.main {
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  width: 100%;
+}
+.fundamental {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100px;
+}
+.harmonics {
+  position: absolute;
+  top: 100px;
+  bottom: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+.harmonics hs-partial {
+  flex: 1 1 0;
+  font-size: 0.8rem;
+}
+.harmonics hs-partial.even {
+  background-color: #f6f6f6;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.partial-label {
+  text-align: right;
+  padding-right: 1em;
+}

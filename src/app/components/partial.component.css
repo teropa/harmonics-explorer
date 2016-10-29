@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  overflow: hidden;
+}
+.control {
+  flex: 2;
+
+  display: flex;
+  align-items: center;
+}
+.control .control-label {
+  flex-basis: 20%;
+}
+.control hs-gain-input {
+  flex-basis: 80%;
+}
+hs-curve {
+  flex: 3;
+}

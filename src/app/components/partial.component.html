@@ -1,0 +1,10 @@
+<div class="control">
+  <div class="control-label">
+    <ng-content></ng-content>
+  </div>
+  <hs-gain-input [gain]="gain"
+                  (gainChange)="gainChange.next($event)">
+  </hs-gain-input>
+</div>
+<hs-curve [data]="curveData" [strong]=strong>
+</hs-curve>

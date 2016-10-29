@@ -1,0 +1,11 @@
+:host {
+  color: white;
+}
+button {
+  margin: 7px 5px;
+}
+.label {
+  display: inline-block;
+  width: 2em;
+  text-align: center;
+}

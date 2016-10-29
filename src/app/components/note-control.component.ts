@@ -3,28 +3,8 @@ import { NoteService } from '../services/note.service';
 
 @Component({
   selector: 'hs-note-control',
-  template: `
-    <button md-icon-button *ngIf="canDecrease()" (click)="decrease()">
-      <md-icon>arrow_downward</md-icon>
-    </button>
-    <span class="label">{{ getFrequencyNote() }}</span>
-    <button md-icon-button *ngIf="canIncrease()" (click)="increase()">
-      <md-icon>arrow_upward</md-icon>
-    </button>
-  `,
-  styles: [`
-    :host {
-      color: white;
-    }
-    button {
-      margin: 7px 5px;
-    }
-    .label {
-      display: inline-block;
-      width: 2em;
-      text-align: center;
-    }
-  `],
+  templateUrl: './note-control.component.html',
+  styleUrls: ['./note-control.component.css'],
   // This is a dumb, stateless component with immutable inputs. We can use
   // OnPush change detection.
   changeDetection: ChangeDetectionStrategy.OnPush

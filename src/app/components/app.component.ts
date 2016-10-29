@@ -24,74 +24,8 @@ import { Preset } from '../services/presets.service';
 
 @Component({
   selector: 'hs-app',
-  template: `
-    <hs-main-menu [playing]="playing$ | async"
-                  (start)="start()"
-                  (stop)="stop()"
-                  (switchToPreset)="switchToPreset($event)"
-                  [fundamentalFrequency]="(partials$ | async).first().frequency"
-                  (fundamentalFrequencyChange)="changeFundamentalFrequency($event)">
-    </hs-main-menu>
-    <div class="main">
-      <hs-partial class="fundamental"
-                  [strong]=true
-                  [gain]="masterGain$ | async"
-                  [curveData]="totalCurve$ | async"
-                  (gainChange)="changeMasterGain($event)">
-        <div class="partial-label">Master</div>
-      </hs-partial>
-      <div class="harmonics">
-        <hs-partial *ngFor="let partial of partials$ | async;
-                            let i = index;
-                            let evn = even;
-                            trackBy: trackPartial"
-                    [class.even]="evn"
-                    [gain]=partial.amplitude
-                    [curveData]=partial.data
-                    (gainChange)="changeAmplitude(i, $event)">
-          <div class="partial-label">
-            {{ roundFrequency(partial.frequency) }}Hz
-          </div>
-        </hs-partial>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .main {
-      position: fixed;
-      top: 50px;
-      bottom: 0;
-      width: 100%;
-    }
-    .fundamental {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100px;
-    }
-    .harmonics {
-      position: absolute;
-      top: 100px;
-      bottom: 0;
-      width: 100%;
-
-      display: flex;
-      flex-direction: column;
-    }
-    .harmonics hs-partial {
-      flex: 1 1 0;
-      font-size: 0.8rem;
-    }
-    .harmonics hs-partial.even {
-      background-color: #f6f6f6;
-      border-top: 1px solid #f0f0f0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .partial-label {
-      text-align: right;
-      padding-right: 1em;
-    }
-  `]
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   partials$: Observable<List<Partial>>;
@@ -102,11 +36,11 @@ export class AppComponent {
   constructor(private store: Store<AppState>) {
     this.partials$ = <Observable<List<Partial>>>store.select('partials');
     this.totalCurve$ = <Observable<List<number>>>store.select('totalCurve');
-    this.masterGain$ = <Observable<number>>store.select('masterGain');
+    this.masterGain$ = <Observable<number>>store.select('masterGain').do(g => console.log('master now', g));
     this.playing$ = <Observable<boolean>>store.select('playing');
   }
 
-  changeAmplitude(partial: number, amplitude: number) {
+  changeAmplitude({partial, amplitude}: {partial: number, amplitude: number}) {
     this.store.dispatch({
       type: CHANGE_AMPLITUDE,
       payload: {partial, amplitude}
@@ -114,6 +48,7 @@ export class AppComponent {
   }
 
   changeMasterGain(gain: number) {
+    console.log('got master gain change', gain);
     this.store.dispatch({
       type: CHANGE_MASTER_GAIN,
       payload: gain
@@ -137,16 +72,6 @@ export class AppComponent {
 
   switchToPreset(preset: Preset) {
     this.store.dispatch({type: SWITCH_TO_PRESET, payload: preset});
-  }
-
-  // ngFor tracking function for partials. We have a constant number so we can
-  // just track by index.
-  trackPartial(index: number) { 
-    return index;
-  }
-
-  roundFrequency(frequency: number) {
-    return Number(frequency).toFixed(2);
   }
 
 }

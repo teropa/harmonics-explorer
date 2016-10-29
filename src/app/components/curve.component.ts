@@ -15,16 +15,8 @@ import { List } from 'immutable';
 
 @Component({
   selector: 'hs-curve',
-  template: `
-    <canvas #cnvs>
-    </canvas>
-  `,
-  styles: [`
-    :host {
-      display: block;
-      overflow: hidden;
-    }
-  `],
+  templateUrl: './curve.component.html',
+  styleUrls: ['./curve.component.css'],
   // This is a dumb, stateless component with immutable inputs. We can use
   // OnPush change detection.
   changeDetection: ChangeDetectionStrategy.OnPush
