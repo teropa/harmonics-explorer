@@ -1,5 +1,6 @@
 import { ApplicationRef, NgModuleRef } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 
 // This variable will contain the application state after a module has been
 // unloaded. From here it is read to the next application version when it's
@@ -44,19 +45,11 @@ export function handleHmr(
     // a problem because the next version of the app will have nothing to
     // attach to. We need to clone the DOM nodes of the current application's root
     // component(s)
-    appRef.components.forEach(cmp => {
-      // Get the DOM node of the component.
-      const node = cmp.location.nativeElement;
-      // Make a clone of the DOM node.
-      // Note: This implemention does not preserve attributes (i.e. CSS classes).
-      // Could easily be extended to do so.
-      const newNode = document.createElement(node.tagName);
-      // Put the new node next to the old one in the DOM.
-      node.parentNode.insertBefore(newNode, node);
-    });
-    // Finally, destroy the Angular module. This will stop the Angular app,
-    // as well as remove its whole DOM (including the root components).
+    const cmpLocations = appRef.components.map(cmp => cmp.location.nativeElement);
+    const disposeOldHosts = createNewHosts(cmpLocations);
     moduleRef.destroy();
+    removeNgStyles();
+    disposeOldHosts();
 
     // After this, the next version of the app will load momentarily.
     // Webpack dev server will execute the new `main.ts` which will then call 

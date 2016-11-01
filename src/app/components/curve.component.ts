@@ -88,7 +88,7 @@ export class CurveComponent implements OnInit, OnChanges {
     this.ctx.stroke();
 
     // Draw the curve
-    this.ctx.strokeStyle = '#000';
+    this.ctx.strokeStyle = '#9c27b0';
     this.ctx.beginPath();
     const step = this.width / this.data.size; // Each data point in pixels
     const effectiveHeight = this.height - this.ctx.lineWidth * 2; // Reduce height so line is not cut off at top and bottom edges.

@@ -44,6 +44,10 @@
   version "2.0.0-alpha.8-2"
   resolved "https://registry.yarnpkg.com/@angular2-material/slider/-/slider-2.0.0-alpha.8-2.tgz#9945b5aa4d54096bc408c2716a4a578c8cd9d72e"
 
+"@angularclass/hmr":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@angularclass/hmr/-/hmr-1.2.1.tgz#991314ee4e9babeb0908dee25ee7c1b0aa31d44f"
+
 "@mohayonao/web-audio-api-shim@0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@mohayonao/web-audio-api-shim/-/web-audio-api-shim-0.3.0.tgz#9ad02c3fec6f91d464258e83bc9d880c87d9467f"
