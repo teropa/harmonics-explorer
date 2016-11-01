@@ -10,7 +10,7 @@ import { Actions, Effect, mergeEffects } from '@ngrx/effects';
 
 import { AppState } from '../app-state';
 import { Partial } from '../partial';
-import { CHANGE_AMPLITUDE, SWITCH_TO_PRESET } from '../harmonics';
+import { CHANGE_AMPLITUDE, SWITCH_TO_PRESET } from '../harmonics.reducer';
 
 // The waveforms that have presets for
 export enum Preset {

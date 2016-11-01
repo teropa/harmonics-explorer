@@ -20,7 +20,7 @@ import { MuteControlComponent } from './components/mute-control.component';
 import { NoteControlComponent } from './components/note-control.component';
 import { PartialComponent } from './components/partial.component';
 
-import { harmonicsReducer } from './harmonics';
+import { harmonicsReducer } from './harmonics.reducer';
 import { AudioService } from './services/audio.service';
 import { NoteService } from './services/note.service';
 import { PresetsService } from './services/presets.service';

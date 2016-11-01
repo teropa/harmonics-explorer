@@ -17,7 +17,7 @@ import {
   START,
   STOP,
   SWITCH_TO_PRESET
-} from '../harmonics';
+} from '../harmonics.reducer';
 import { AppState } from '../app-state';
 import { Partial } from '../partial';
 import { Preset } from '../services/presets.service';

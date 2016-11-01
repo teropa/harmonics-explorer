@@ -13,7 +13,7 @@ import {
   CHANGE_MASTER_GAIN,
   CHANGE_FUNDAMENTAL_FREQUENCY,
   CHANGE_AMPLITUDE
-} from '../harmonics';
+} from '../harmonics.reducer';
 import { AppState } from '../app-state';
 import { Partial } from '../partial';
 
