@@ -21,7 +21,7 @@ export function handleHmr(
   // Bootstrap the module and grab the NgModule reference from the
   // promise when it's resolved. This will start the application.
   bootstrap()
-    .then((mod: NgModuleRef<any>) => moduleRef = mod);
+    .then(mod => moduleRef = mod);
 
   // Let Webpack know that we can handle hot loading for this module
   module.hot.accept();
