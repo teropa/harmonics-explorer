@@ -1,0 +1,28 @@
+/*
+ * This is the main entry point of the application,
+ * and has been configured as such in the Webpack config
+ */
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
+
+import { handleHmr } from './hmr';
+import { AppDevModule } from './app/app-dev.module';
+
+if (process.env.ENV === 'production') {
+  enableProdMode();
+}
+
+function bootstrap() {
+  return platformBrowserDynamic()
+    .bootstrapModule(AppDevModule);
+}
+
+// We may bootstrap the app in one of two ways..
+if ((<any>module).hot) {
+  // A hot loading bootstrap. Delegate to handleHmr, see hmr.ts.
+  handleHmr(module, bootstrap);
+} else {
+  // A regular (cold) bootstrap, when not doing hot loading. We just call
+  // Angular's bootstrap directly from this module.
+  bootstrap();
+}
