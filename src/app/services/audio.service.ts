@@ -42,6 +42,12 @@ export class AudioService implements OnDestroy {
   // because we're never dispatching any further actions to the store. This service
   // is purely for side effects (= playing sounds)
 
+  // Initial start if running at first
+  @Effect({dispatch: false}) init$ = this.store
+    .take(1)
+    .filter(state => state.playing)
+    .do(state => this.start(state));
+
   // Start & Stop
   @Effect({dispatch: false}) start$ = this.actions$
     .ofType(START)
