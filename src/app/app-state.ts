@@ -12,8 +12,7 @@ export interface AppState {
   playing: boolean, // Are we currently playing sounds?
   fundamentalFrequency: number, // The frequency (+pitch) of the fundamental partial
   partials: List<PartialRecord>, // The partials (fundamental + harmonics)
-  masterGain: number, // Master volume
-  totalCurve?: List<number> // The calculated combined curve, for visualization
+  masterGain: number // Master volume
 }
 
 // An Immutable.js Record implementation of the AppState interface.
@@ -27,6 +26,5 @@ export const appStateFactory = makeTypedFactory<AppState, AppStateRecord>({
   playing: false,
   fundamentalFrequency: 440,
   partials: <List<PartialRecord>>List.of(),
-  masterGain: 1,
-  totalCurve: <List<number>>List.of()
+  masterGain: 1
 });

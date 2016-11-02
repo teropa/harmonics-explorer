@@ -3,8 +3,8 @@
     <ng-content></ng-content>
   </div>
   <hs-gain-input [gain]="gain"
-                  (gainChange)="gainChange.next($event)">
+                 (gainChange)="gainChange.next($event)">
   </hs-gain-input>
 </div>
-<hs-curve [data]="curveData" [strong]=strong>
+<hs-curve [data]="data" [strong]=strong>
 </hs-curve>

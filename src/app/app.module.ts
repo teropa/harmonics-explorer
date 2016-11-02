@@ -19,6 +19,7 @@ import { GainInputComponent } from './components/gain-input.component';
 import { MuteControlComponent } from './components/mute-control.component'; 
 import { NoteControlComponent } from './components/note-control.component';
 import { PartialComponent } from './components/partial.component';
+import { TotalComponent } from './components/total.component';
 
 import { harmonicsReducer } from './harmonics.reducer';
 import { AudioService } from './services/audio.service';
@@ -49,7 +50,8 @@ import { appState } from '../hmr';
     GainInputComponent,
     MuteControlComponent,
     NoteControlComponent,
-    PartialComponent
+    PartialComponent,
+    TotalComponent
   ],
   providers: [
     AudioService,

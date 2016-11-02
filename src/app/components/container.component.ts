@@ -19,7 +19,6 @@ import { Preset } from '../services/presets.service';
 })
 export class ContainerComponent {
   @Input() partials: List<Partial>;
-  @Input() totalCurve: List<number>;
   @Input() masterGain: number;
   @Input() playing: boolean;
   @Output() amplitudeChange = new EventEmitter<{partial: number, amplitude: number}>();

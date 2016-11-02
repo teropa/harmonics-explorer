@@ -21,11 +21,6 @@ export const SWITCH_TO_PRESET = 'SWITCH_TO_PRESET'; // shortcuts "square", "sawt
 
 // How many harmonic partials to include.
 const HARMONICS_COUNT = 13;
-// How many samples to visualize in each curve.
-const SAMPLE_COUNT = 650;
-// The "sample rate frequency" used for visualization. Controls how much
-// of the waves are shown.
-const SAMPLE_RATE = 44100; 
 
 // The reducer function. Receives actions and produces new application states.
 export const harmonicsReducer: ActionReducer<AppStateRecord> =
@@ -54,14 +49,13 @@ export const harmonicsReducer: ActionReducer<AppStateRecord> =
 function makeInitialState() {
   const fundamentalFrequency = 261.63;
   const partials = <List<PartialRecord>>List(Range(1, HARMONICS_COUNT + 1)
-    .map(partialNumber => makePartial(fundamentalFrequency, partialNumber))
-    .map(updateCurve));
-  return updateTotalCurve(appStateFactory({
+    .map(partialNumber => makePartial(fundamentalFrequency, partialNumber)));
+  return appStateFactory({
     playing: false,
     masterGain: 0.5,
     fundamentalFrequency,
     partials
-  }));
+  });
 }
 
 // Initial Partials, invoked for each harmonic from makeInitialState
@@ -72,53 +66,32 @@ function makePartial(fundamentalFrequency: number, partial: number) {
   });
 }
 
-// Update the sine curve for a partial, by calculating it sample by sample
-function updateCurve(partial: PartialRecord) {
-  const data = calculateSineCurve(
-    partial.frequency,
-    partial.amplitude,
-    SAMPLE_COUNT,
-    SAMPLE_RATE
-  );
-  return partial.merge({data});
-}
-
-// Update the curve data for the combinination of all the sine wave partials.
-function updateTotalCurve(state: AppStateRecord) {
-  const totalCurve = combineCurves(
-    <List<List<number>>>state.partials.map(p => p.data),
-    state.masterGain
-  );
-  return state.merge({totalCurve});
-}
-
 // Start (unmute) / Stop (mute)
 function setPlayState(state: AppStateRecord, playing: boolean) {
   return state.merge({playing});
 }
 
-// Change the amplitude for a particular partial. Will also recalculate the
-// sine curve for that partial as well as the combined total curve.
+// Change the amplitude for a particular partial.
 function changeAmplitude(state: AppStateRecord, partialNumber: number, amplitude: number) {
-  return updateTotalCurve(state.updateIn(
+  return state.updateIn(
     ['partials', partialNumber], // Deep update inside a specific item of the partials list
     p => changeAmplitudeForPartial(p, amplitude)
-  ));
+  );
 }
 
 // Adjust the amplitude for a particular partial and also
 // calculate the changed sine curve for it.
 function changeAmplitudeForPartial(partial: PartialRecord, amplitude: number) {
-  return updateCurve(partial.merge({amplitude}));
+  return partial.merge({amplitude});
 }
 
 // Change the fundamental frequency of the system. Will cause all partials
 // to be updated as well.
 function changeFundamentalFrequency(state: AppStateRecord, fundamentalFrequency: number) {
-  return updateTotalCurve(state
+  return state
     .merge({fundamentalFrequency})
     .update('partials',
-      partials => setPartialFrequencies(partials, fundamentalFrequency))); 
+      partials => setPartialFrequencies(partials, fundamentalFrequency)); 
 }
 
 
@@ -127,13 +100,13 @@ function changeFundamentalFrequency(state: AppStateRecord, fundamentalFrequency:
 function setPartialFrequencies(partials: List<PartialRecord>, fundamentalFrequency: number) {
   return partials.map((partial: PartialRecord, index: number) => {
     const frequency = fundamentalFrequency * (index + 1);
-    return updateCurve(partial.merge({frequency}));
+    return partial.merge({frequency});
   });
 }
 
 
 // Change the master gain of the total curve. Will also recalculate it.
 function changeMasterGain(state: AppStateRecord, masterGain: number) {
-  return updateTotalCurve(state.merge({masterGain}));
+  return state.merge({masterGain});
 }
 

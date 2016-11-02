@@ -10,7 +10,6 @@ import { List } from 'immutable';
 export interface Partial {
   frequency: number; // The (calculated) frequency of the partial
   amplitude: number; // The (user defined) amplitude of the partial
-  data?: List<number> // The sine curve data of the partial, for visualization
 }
 
 // An Immutable.js Record implementation of the Partial interface.
@@ -22,6 +21,5 @@ export interface PartialRecord extends TypedRecord<PartialRecord>, Partial { }
 // An Immutable.js record factory for the record.
 export const partialFactory = makeTypedFactory<Partial, PartialRecord>({
   frequency: 440,
-  amplitude: 1,
-  data: <List<number>>List.of()
+  amplitude: 1
 });

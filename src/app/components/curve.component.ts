@@ -23,7 +23,7 @@ import { List } from 'immutable';
 })
 export class CurveComponent implements OnInit, OnChanges {
   @Input() strong = false; // Render a "stronger" curve, used for the total curve.
-  @Input() data: List<number>; // The data to render.
+  @Input() data: List<number>;
 
   // Our canvas and its context.
   private canvas: HTMLCanvasElement;
@@ -72,9 +72,6 @@ export class CurveComponent implements OnInit, OnChanges {
 
   private draw() {
     this.ctx.clearRect(0, 0, this.width, this.height);
-    if (!this.data) {
-      return;
-    }
  
     this.ctx.strokeStyle = '#e5e5e5';
     if (this.strong) {

@@ -29,14 +29,12 @@ import { Preset } from '../services/presets.service';
 })
 export class AppComponent {
   partials$: Observable<List<Partial>>;
-  totalCurve$: Observable<List<number>>;
   masterGain$: Observable<number>;
   playing$: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
     this.partials$ = <Observable<List<Partial>>>store.select('partials');
-    this.totalCurve$ = <Observable<List<number>>>store.select('totalCurve');
-    this.masterGain$ = <Observable<number>>store.select('masterGain').do(g => console.log('master now', g));
+    this.masterGain$ = <Observable<number>>store.select('masterGain');
     this.playing$ = <Observable<boolean>>store.select('playing');
   }
 
@@ -48,7 +46,6 @@ export class AppComponent {
   }
 
   changeMasterGain(gain: number) {
-    console.log('got master gain change', gain);
     this.store.dispatch({
       type: CHANGE_MASTER_GAIN,
       payload: gain

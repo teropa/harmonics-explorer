@@ -6,13 +6,12 @@
               (fundamentalFrequencyChange)="fundamentalFrequencyChange.next($event)">
 </hs-main-menu>
 <div class="main">
-  <hs-partial class="fundamental"
-              [strong]=true
-              [gain]="masterGain"
-              [curveData]="totalCurve"
-              (gainChange)="masterGainChange.next($event)">
+  <hs-total class="fundamental"
+            [partials]="partials"
+            [gain]="masterGain"
+            (gainChange)="masterGainChange.next($event)">
     <div class="partial-label">Master</div>
-  </hs-partial>
+  </hs-total>
   <div class="harmonics">
     <hs-partial *ngFor="let partial of partials;
                         let i = index;
@@ -20,7 +19,7 @@
                         trackBy: trackPartial"
                 [class.even]="evn"
                 [gain]=partial.amplitude
-                [curveData]=partial.data
+                [frequency]=partial.frequency
                 (gainChange)="amplitudeChange.next({partial: i, amplitude: $event})">
       <div class="partial-label">
         {{ roundFrequency(partial.frequency) }}Hz

@@ -1,6 +1,5 @@
 /*
- * Renders a particular partial of the harmonic series, including
- * its amplitude control and its sine wave curve.
+ * Renders the total resulting curve of the harmonic series
  */
 import {
   ChangeDetectionStrategy,
@@ -12,7 +11,8 @@ import {
   Output
 } from '@angular/core';
 import { List } from 'immutable';
-import { calculateSineCurve } from '../curves';
+import { Partial } from '../partial';
+import { combineCurves, calculateSineCurve } from '../curves';
 
 // How many samples to visualize in each curve.
 const SAMPLE_COUNT = 650;
@@ -21,27 +21,24 @@ const SAMPLE_COUNT = 650;
 const SAMPLE_RATE = 44100; 
 
 @Component({
-  selector: 'hs-partial',
+  selector: 'hs-total',
   templateUrl: './partial.component.html',
   styleUrls: ['./partial.component.css'],
   // This is a dumb, stateless component with immutable inputs. We can use
   // OnPush change detection.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PartialComponent implements OnChanges {
-  @Input() strong = false;
+export class TotalComponent implements OnChanges {
   @Input() gain: number;
-  @Input() frequency: number;
+  @Input() partials: List<Partial>;
   @Output() gainChange = new EventEmitter();
   data: List<number>;
+  strong = true;
 
   ngOnChanges() {
-     this.data = <List<number>>calculateSineCurve(
-      this.frequency,
-      this.gain,
-      SAMPLE_COUNT,
-      SAMPLE_RATE
-    );
+    const all = <List<List<number>>>this.partials
+      .map(p => calculateSineCurve(p.frequency, p.amplitude, SAMPLE_COUNT, SAMPLE_RATE));
+    this.data = <List<number>>combineCurves(all, this.gain);
   }
 
 }
