@@ -3,7 +3,7 @@
  */
 import { TypedRecord, makeTypedFactory } from 'typed-immutable-record';
 import { List } from 'immutable';
-import { PartialRecord } from './Partial';
+import { PartialRecord } from './partial';
 
 // The TypeScript interface that defines the application state's properties.
 // This is to be imported wherever a reference to the app state is used
